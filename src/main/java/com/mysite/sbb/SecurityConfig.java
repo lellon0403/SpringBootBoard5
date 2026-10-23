@@ -9,6 +9,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 
 
 @Configuration
@@ -21,6 +22,9 @@ public class SecurityConfig {
                         .requestMatchers("/**").permitAll())
                 .csrf((csrf) -> csrf
                         .ignoringRequestMatchers("/h2-console/**"))
+                .headers((headers) -> headers
+                        .addHeaderWriter(new XFrameOptionsHeaderWriter(
+                                XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
         ;
 
         return http.build();
